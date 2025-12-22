@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 
-const userModel = require('../models/user');
+const userModel = require('../models/User');
 
 const insertOne = async (email, password) => {
     if (password.length < 6) {

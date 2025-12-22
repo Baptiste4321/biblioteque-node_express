@@ -1,3 +1,7 @@
+const User = require('./models/User');
+const Book = require('./models/Book');
+const Loan = require('./models/Loan');
+const Review = require('./models/Review');
 const express = require('express');
 require('dotenv').config({'path': '.env.local'});
 const morgan = require('morgan');
@@ -40,3 +44,4 @@ app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.listen(PORT, () => {
   console.log(`Serveur Express en écoute sur http://localhost:${PORT}`);
 });
+sequelize.sync({ alter: true }) // Met à jour les tables avec les nouveaux champs
