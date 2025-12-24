@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const authCtrl = require('../controllers/auth');
-
+const userCtrl = require('../controllers/users');
 router.post('/login', async (req, res) => {
     if (typeof req.body == 'undefined') {
         return res.status(500).json({"error": "Aucune donnée reçu !"});
@@ -20,7 +20,9 @@ router.post('/login', async (req, res) => {
 
 router.post('/register', async (req, res) => {
     try {
-        
+        // On utilise la fonction insertOne que tu as déjà créée dans users controller
+        await userCtrl.insertOne(email, password);
+        res.status(201).json({"message": "Utilisateur créé avec succès !"});
     } catch(error) {
         res.status(500).json({"error": error.message});
     }

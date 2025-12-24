@@ -2,8 +2,9 @@ const User = require('./models/User');
 const Book = require('./models/Book');
 const Loan = require('./models/Loan');
 const Review = require('./models/Review');
+const booksRoutes = require('./routes/books');
 const express = require('express');
-require('dotenv').config({'path': '.env.local'});
+require('dotenv').config({'path': '.env'});
 const morgan = require('morgan');
 const helmet = require('helmet');
 const { swaggerUi, specs } = require('./config/swagger');
@@ -37,6 +38,7 @@ app.get('/', (req, res) => {
 
 // Ajout les routes correspondant aux users
 app.use('/api/users', usersRoutes);
+app.use('/api/books', booksRoutes);
 app.use('/api/auth',  authRoutes);
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(specs));
 

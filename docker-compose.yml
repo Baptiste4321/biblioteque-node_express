@@ -27,10 +27,14 @@ services:
       - minio_data:/data
 
   # Ton API Node.js
+    # Ton API Node.js
   api:
     build: .
     ports:
       - "${PORT}:${PORT}"
+    # Ajoute cette ligne pour charger automatiquement toutes les variables du .env dans le conteneur
+    env_file:
+      - .env
     environment:
       - DB_HOST=db
       - DB_DIALECT=postgres
