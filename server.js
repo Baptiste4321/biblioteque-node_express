@@ -1,10 +1,10 @@
+require('dotenv').config({'path': '.env'});
 const User = require('./models/User');
 const Book = require('./models/Book');
 const Loan = require('./models/Loan');
 const Review = require('./models/Review');
 const booksRoutes = require('./routes/books');
 const express = require('express');
-require('dotenv').config({'path': '.env'});
 const morgan = require('morgan');
 const helmet = require('helmet');
 const { swaggerUi, specs } = require('./config/swagger');
@@ -16,6 +16,7 @@ sequelize.sync({ alter: true }) // crée ou met à jour les tables
 
 const usersRoutes = require('./routes/users');
 const authRoutes = require('./routes/auth');
+const loansRoutes = require('./routes/loans');
 
 // Créé l'application Express
 const app = express();
@@ -40,6 +41,7 @@ app.get('/', (req, res) => {
 app.use('/api/users', usersRoutes);
 app.use('/api/books', booksRoutes);
 app.use('/api/auth',  authRoutes);
+app.use('/api/loans', loansRoutes);
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // Lance le server

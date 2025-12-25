@@ -6,8 +6,8 @@ const multer = require('multer');
 const upload = multer({ storage: multer.memoryStorage() });
 
 const bookCtrl = require('../controllers/books');
-const auth = require('../middlewares/auth'); // Vérifie le token JWT
-const isAdmin = require('../middlewares/isAdmin'); // Vérifie le rôle admin
+const auth = require('../middlewares/auth');
+const isAdmin = require('../middlewares/isAdmin');
 
 /**
  * @swagger
@@ -33,6 +33,9 @@ const isAdmin = require('../middlewares/isAdmin'); // Vérifie le rôle admin
  * cover:
  * type: string
  * format: binary
+ * responses:
+ * 201:
+ * description: Livre créé avec succès
  */
 router.post('/', auth, isAdmin, upload.single('cover'), bookCtrl.createBook);
 
