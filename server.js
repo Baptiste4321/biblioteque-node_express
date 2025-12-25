@@ -10,7 +10,7 @@ const helmet = require('helmet');
 const { swaggerUi, specs } = require('./config/swagger');
 
 const sequelize = require('./config/database');
-sequelize.sync({ alter: true }) // crée ou met à jour les tables
+sequelize.sync({ force: true }) // crée ou met à jour les tables
   .then(() => console.log("✅ Base de données synchronisée"))
   .catch(err => console.error("❌ Erreur :", err));
 
@@ -48,4 +48,3 @@ app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.listen(PORT, () => {
   console.log(`Serveur Express en écoute sur http://localhost:${PORT}`);
 });
-sequelize.sync({ alter: true }) // Met à jour les tables avec les nouveaux champs
