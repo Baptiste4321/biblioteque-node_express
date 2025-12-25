@@ -20,6 +20,8 @@ router.post('/login', async (req, res) => {
 
 router.post('/register', async (req, res) => {
     try {
+        const { email, password } = req.body; // À ajouter avant l'appel à userCtrl
+
         // On utilise la fonction insertOne que tu as déjà créée dans users controller
         await userCtrl.insertOne(email, password);
         res.status(201).json({"message": "Utilisateur créé avec succès !"});
