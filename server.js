@@ -1,50 +1,77 @@
-require('dotenv').config({'path': '.env'});
-const User = require('./models/User');
-const Book = require('./models/Book');
-const Loan = require('./models/Loan');
-const Review = require('./models/Review');
-const booksRoutes = require('./routes/books');
+require('dotenv').config({ 'path': '.env' });
 const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
+
+// Import des configurations
+const sequelize = require('./config/database');
 const { swaggerUi, specs } = require('./config/swagger');
 
-const sequelize = require('./config/database');
-sequelize.sync({ force: true }) // crée ou met à jour les tables
-  .then(() => console.log("✅ Base de données synchronisée"))
-  .catch(err => console.error("❌ Erreur :", err));
+// Import des modèles (nécessaire pour sequelize.sync)
+require('./models/User');
+require('./models/Book');
+require('./models/Loan');
+require('./models/Review');
 
+// Import des routes
+const booksRoutes = require('./routes/books');
 const usersRoutes = require('./routes/users');
 const authRoutes = require('./routes/auth');
 const loansRoutes = require('./routes/loans');
 
-// Créé l'application Express
 const app = express();
+const PORT = process.env.PORT || 3001;
 
-// Changement de headers
+// Middlewares
 app.use(helmet());
-
-// Ajout des logs de connexion
 app.use(morgan('combined'));
-
-// parse la requete pour extraire le donnée JSON
 app.use(express.json());
 
-const PORT = process.env.PORT || 3000;
-
-// Première route d'accueil de l'API
+// Routes
 app.get('/', (req, res) => {
-  res.send('Bienvenue sur notre API Express !');
+    res.send('Bienvenue sur notre API Express !');
 });
 
-// Ajout les routes correspondant aux users
 app.use('/api/users', usersRoutes);
 app.use('/api/books', booksRoutes);
-app.use('/api/auth',  authRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api/loans', loansRoutes);
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(specs));
 
-// Lance le server
-app.listen(PORT, () => {
-  console.log(`Serveur Express en écoute sur http://localhost:${PORT}`);
+// Fonction de démarrage sécurisée
+// Remplacez la fin de votre fichier server.js par ceci :
+
+async function startApp() {
+    try {
+        console.log('--- Tentative de connexion ---');
+        await sequelize.authenticate();
+        console.log('✅ Connexion à la base de données établie.');
+
+        await sequelize.sync({ force: false });
+        console.log("✅ Base de données synchronisée");
+
+        const server = app.listen(PORT, () => {
+            console.log(`Serveur Express en écoute sur http://localhost:${PORT}`);
+        });
+
+        // Capture les erreurs spécifiques au serveur HTTP
+        server.on('error', (err) => {
+            console.error('❌ Erreur du serveur HTTP:', err);
+        });
+
+    } catch (error) {
+        console.error("❌ Erreur lors du startApp:", error);
+        process.exit(1);
+    }
+}
+
+// Gestion des erreurs globales pour voir ce qui fait quitter Node
+process.on('uncaughtException', (err) => {
+    console.error('🔥 Erreur critique non capturée:', err);
 });
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('🔥 Promesse non gérée rejetée:', reason);
+});
+
+startApp();

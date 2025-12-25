@@ -11,7 +11,7 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:4000', // Remplace par l'URL de ton serveur
+        url: 'http://localhost:3001', // Remplace par l'URL de ton serveur
       },
     ],
   },
