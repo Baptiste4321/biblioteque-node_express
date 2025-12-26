@@ -50,6 +50,7 @@ async function startApp() {
         await sequelize.authenticate();
         console.log('✅ Connexion à la base de données établie.');
 
+        //await sequelize.sync({ alter: true });
         await sequelize.sync({ force: false });
         console.log("✅ Base de données synchronisée");
 
