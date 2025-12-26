@@ -1,0 +1,45 @@
+### 1. D'abord, connexion pour récupérer le Token Admin
+# @name login
+POST http://localhost:3001/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "baptite@gmail.com",
+  "password": "password123"
+}
+
+> {%
+    // Script PHPStorm pour sauvegarder le token en variable globale
+    client.global.set("auth_token", response.body.token);
+    client.log("Token capturé : " + response.body.token);
+%}
+
+###
+
+### 2. Création du livre (utilise le token capturé ci-dessus)
+POST http://localhost:3001/api/books
+Authorization: Bearer {{auth_token}}
+Content-Type: multipart/form-data; boundary=MfnBound
+
+--MfnBound
+Content-Disposition: form-data; name="title"
+
+Le Petit Prince
+--MfnBound
+Content-Disposition: form-data; name="author"
+
+Antoine de Saint-Exupéry
+--MfnBound
+Content-Disposition: form-data; name="isbn"
+
+978-0156012195
+--MfnBound
+Content-Disposition: form-data; name="stock"
+
+10
+--MfnBound
+Content-Disposition: form-data; name="cover"; filename="cover.jpg"
+Content-Type: image/jpeg
+
+< ./cover.jpg
+--MfnBound--
