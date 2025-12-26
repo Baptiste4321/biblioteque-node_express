@@ -39,4 +39,6 @@ const getAllBooks = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-module.exports = { createBook };
+
+// Vérifiez bien cette ligne d'export :
+module.exports = { createBook, getAllBooks };
