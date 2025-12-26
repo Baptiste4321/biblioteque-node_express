@@ -24,9 +24,10 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middlewares
+app.use(cors());
 app.use(helmet());
 app.use(morgan('combined'));
-app.use(cors());
+
 app.use(express.json());
 
 // Routes
