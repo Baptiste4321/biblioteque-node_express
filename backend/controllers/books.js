@@ -31,5 +31,12 @@ const createBook = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-
+const getAllBooks = async (req, res) => {
+    try {
+        const books = await booksService.getAllBooks();
+        res.status(200).json(books);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 module.exports = { createBook };

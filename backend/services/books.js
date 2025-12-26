@@ -9,4 +9,12 @@ const createBook = async (data) => {
     }
 };
 
-module.exports = { createBook };
+const getAllBooks = async () => {
+    try {
+        return await Book.findAll();
+    } catch (error) {
+        throw new Error("Erreur lors de la récupération des livres : " + error.message);
+    }
+};
+
+module.exports = { createBook, getAllBooks };

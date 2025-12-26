@@ -37,6 +37,16 @@ const isAdmin = require('../middlewares/isAdmin');
  *       '201':
  *         description: Livre créé avec succès
  */
-router.post('/', auth, isAdmin, upload.single('cover'), bookCtrl.createBook);
 
+router.post('/', auth, isAdmin, upload.single('cover'), bookCtrl.createBook);
+/**
+ * @swagger
+ * /api/books:
+ * get:
+ * summary: Récupérer tous les livres
+ * responses:
+ * 200:
+ * description: Liste des livres
+ */
+router.get('/', bookCtrl.getAllBooks);
 module.exports = router;
