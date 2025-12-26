@@ -1,5 +1,6 @@
 require('dotenv').config({ 'path': '.env' });
 const express = require('express');
+const cors = require('cors');
 const morgan = require('morgan');
 const helmet = require('helmet');
 
@@ -25,6 +26,7 @@ const PORT = process.env.PORT || 3001;
 // Middlewares
 app.use(helmet());
 app.use(morgan('combined'));
+app.use(cors());
 app.use(express.json());
 
 // Routes

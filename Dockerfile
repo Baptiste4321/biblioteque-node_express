@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # On expose le port sur lequel l'app tourne
-EXPOSE 3000
+EXPOSE 3001
 
 # Commande de démarrage (utilise le script "dev" de ton package.json avec nodemon)
 CMD ["npm", "run", "dev"]
