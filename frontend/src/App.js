@@ -6,6 +6,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 import BookList from './components/BookList';
 import AddBook from './components/AddBook';
+import EditBook from './components/EditBook';
 import MyLoans from './components/MyLoans'; // Import du nouveau composant
 
 function App() {
@@ -38,8 +39,10 @@ function App() {
                     <Route path="/" element={<BookList />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/add-book" element={<AddBook />} />
                     <Route path="/my-loans" element={<MyLoans />} />
+                    {/* Routes Admin */}
+                    <Route path="/add-book" element={<AddBook />} />
+                    <Route path="/edit-book/:id" element={<AddBook />} />
                 </Routes>
             </div>
         </Router>

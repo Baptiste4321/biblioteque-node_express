@@ -6,6 +6,17 @@ const getAuthHeaders = () => {
     const token = localStorage.getItem('token');
     return token ? { Authorization: `Bearer ${token}` } : {};
 };
+const api = axios.create({
+    baseURL: API_URL,
+});
+
+api.interceptors.request.use((config) => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user && user.token) {
+        config.headers.Authorization = `Bearer ${user.token}`;
+    }
+    return config;
+});
 
 export const registerUser = (email, password) => axios.post(`${API_URL}/auth/register`, { email, password });
 

@@ -1,10 +1,11 @@
 const minioService = require('../services/minio');
 const booksService = require('../services/books');
 const Book = require('../models/Book');
+
 const createBook = async (req, res) => {
     try {
         const { title, author, isbn, stock } = req.body;
-        const file = req.file; // Fichier envoyé par Multer
+        const file = req.file;
 
         if (!title || !author || !isbn) {
             return res.status(400).json({ error: "Champs obligatoires manquants" });
@@ -12,7 +13,6 @@ const createBook = async (req, res) => {
 
         let coverUrl = null;
         if (file) {
-            // Upload vers MinIO
             coverUrl = await minioService.uploadFile(file);
         }
 
@@ -31,6 +31,7 @@ const createBook = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
 const getAllBooks = async (req, res) => {
     try {
         const books = await booksService.getAllBooks();
@@ -39,15 +40,15 @@ const getAllBooks = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-exports.modifyBook = async (req, res) => {
+
+// CORRECTION ICI : Utilisez 'const' au lieu de 'exports.'
+const modifyBook = async (req, res) => {
     try {
         const book = await Book.findByPk(req.params.id);
         if (!book) return res.status(404).json({ error: "Livre non trouvé" });
 
-        // Mise à jour des champs
         const { title, author, isbn, stock } = req.body;
 
-        // Gestion simple : on met à jour si le champ est présent
         if (title) book.title = title;
         if (author) book.author = author;
         if (isbn) book.isbn = isbn;
@@ -60,7 +61,8 @@ exports.modifyBook = async (req, res) => {
     }
 };
 
-exports.deleteBook = async (req, res) => {
+// CORRECTION ICI : Utilisez 'const' au lieu de 'exports.'
+const deleteBook = async (req, res) => {
     try {
         const book = await Book.findByPk(req.params.id);
         if (!book) return res.status(404).json({ error: "Livre non trouvé" });
@@ -71,7 +73,8 @@ exports.deleteBook = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-// Vérifiez bien cette ligne d'export :
+
+// Maintenant, toutes les variables existent et peuvent être exportées
 module.exports = {
     createBook,
     getAllBooks,
