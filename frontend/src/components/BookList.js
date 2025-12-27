@@ -1,24 +1,26 @@
+// Fichier : frontend/src/components/BookList.js
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Import de useNavigate et Link
-import api from '../services/api'; // Assurez-vous d'importer votre service API
+import { Link, useNavigate } from 'react-router-dom';
+// CORRECTION : Import des fonctions nommées (plus de "import api from ...")
+import { fetchBooks, deleteBook, borrowBook } from '../services/api';
 
 const BookList = () => {
     const [books, setBooks] = useState([]);
     const navigate = useNavigate();
 
-    // Récupération de l'utilisateur et vérification du rôle
-    // On suppose que l'objet user ressemble à { role: 'admin', ... }
+    // Vérification Admin
     const userString = localStorage.getItem('user');
     const user = userString ? JSON.parse(userString) : null;
     const isAdmin = user && user.role === 'admin';
 
     useEffect(() => {
-        fetchBooks();
+        loadBooks();
     }, []);
 
-    const fetchBooks = async () => {
+    const loadBooks = async () => {
         try {
-            const response = await api.get('/books');
+            // CORRECTION : Appel direct à la fonction fetchBooks
+            const response = await fetchBooks();
             setBooks(response.data);
         } catch (error) {
             console.error("Erreur lors du chargement des livres", error);
@@ -28,8 +30,8 @@ const BookList = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Êtes-vous sûr de vouloir supprimer ce livre ?")) {
             try {
-                await api.delete(`/books/${id}`);
-                // On rafraîchit la liste après suppression
+                // CORRECTION : Appel à deleteBook
+                await deleteBook(id);
                 setBooks(books.filter(book => book.id !== id));
                 alert("Livre supprimé !");
             } catch (error) {
@@ -41,10 +43,9 @@ const BookList = () => {
 
     const handleBorrow = async (id) => {
         try {
-            await api.post(`/loans`, { bookId: id });
+            await borrowBook(id);
             alert("Livre emprunté avec succès !");
-            // Optionnel : recharger les livres pour mettre à jour le stock
-            fetchBooks();
+            loadBooks();
         } catch (error) {
             alert("Erreur : " + (error.response?.data?.error || "Impossible d'emprunter"));
         }
@@ -54,7 +55,7 @@ const BookList = () => {
         <div className="book-list-container">
             <h2>Bibliothèque</h2>
 
-            {/* Bouton Ajouter visible seulement pour l'admin */}
+            {/* INTERFACE ADMIN : Bouton Ajouter */}
             {isAdmin && (
                 <div style={{ marginBottom: '20px' }}>
                     <Link to="/add-book" className="btn-add">
@@ -73,10 +74,11 @@ const BookList = () => {
 
                         <div className="book-actions">
                             {isAdmin ? (
-                                // Interface ADMIN : Modifier / Supprimer
+                                // INTERFACE ADMIN : Modifier / Supprimer
                                 <>
                                     <button
-                                        onClick={() => navigate(`/edit-book/${book.id}`)}
+                                        // On passe l'objet book pour pré-remplir le formulaire
+                                        onClick={() => navigate(`/edit-book/${book.id}`, { state: { book } })}
                                         className="btn-edit"
                                     >
                                         Modifier
@@ -90,7 +92,7 @@ const BookList = () => {
                                     </button>
                                 </>
                             ) : (
-                                // Interface UTILISATEUR : Emprunter
+                                // INTERFACE UTILISATEUR : Emprunter
                                 <button
                                     onClick={() => handleBorrow(book.id)}
                                     disabled={book.stock <= 0}
