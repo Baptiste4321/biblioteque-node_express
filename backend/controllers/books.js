@@ -49,10 +49,12 @@ const modifyBook = async (req, res) => {
 
         const { title, author, isbn, stock } = req.body;
 
-        if (title) book.title = title;
-        if (author) book.author = author;
-        if (isbn) book.isbn = isbn;
-        if (stock) book.stock = stock;
+        // On vérifie si la valeur est fournie (undefined check) pour permettre les chaînes vides ou 0
+        if (title !== undefined) book.title = title;
+        if (author !== undefined) book.author = author;
+        if (isbn !== undefined) book.isbn = isbn;
+        // Correction critique : permet de mettre le stock à 0
+        if (stock !== undefined) book.stock = parseInt(stock, 10);
 
         await book.save();
         res.status(200).json({ message: "Livre modifié !", book });

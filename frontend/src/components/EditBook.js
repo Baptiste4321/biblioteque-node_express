@@ -1,22 +1,33 @@
-// Fichier : frontend/src/components/EditBook.js
-import React, { useState } from 'react';
+// frontend/src/components/EditBook.js
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { updateBook } from '../services/api';
+import { updateBook, fetchBooks } from '../services/api'; // Import fetchBooks pour recharger si besoin
 
 const EditBook = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const location = useLocation();
 
-    // On récupère les infos du livre passées par BookList
-    const bookToEdit = location.state?.book || {};
-
     const [formData, setFormData] = useState({
-        title: bookToEdit.title || '',
-        author: bookToEdit.author || '',
-        isbn: bookToEdit.isbn || '',
-        stock: bookToEdit.stock || 1
+        title: '',
+        author: '',
+        isbn: '',
+        stock: 1
     });
+
+    useEffect(() => {
+        // Si on a les données via la navigation (BookList)
+        if (location.state?.book) {
+            setFormData(location.state.book);
+        } else {
+            // SINON (cas du rafraîchissement de page), on recharge les livres
+            // Idéalement, il faudrait une route API getBook(id), mais ici on filtre fetchBooks
+            fetchBooks().then(res => {
+                const foundBook = res.data.find(b => b.id.toString() === id);
+                if (foundBook) setFormData(foundBook);
+            }).catch(err => console.error("Erreur chargement livre", err));
+        }
+    }, [id, location.state]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -42,7 +53,7 @@ const EditBook = () => {
                 <input name="author" placeholder="Auteur" value={formData.author} onChange={handleChange} required />
                 <input name="isbn" placeholder="ISBN" value={formData.isbn} onChange={handleChange} required />
                 <input type="number" name="stock" placeholder="Stock" value={formData.stock} onChange={handleChange} required />
-                <button type="submit">Enregistrer</button>
+                <button type="submit" className="btn-primary">Enregistrer</button>
             </form>
         </div>
     );
