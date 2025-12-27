@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
 const userModel = require('../models/User');
 
 exports.login = async (email, password) => {
@@ -10,9 +9,12 @@ exports.login = async (email, password) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) throw Error("Mot de passe incorrect");
 
-    return await jwt.sign(
-        { id: user.id, email: user.email, role: user.role }, // On ajoute le role ici
+    const token = jwt.sign(
+        { id: user.id, email: user.email, role: user.role },
         process.env.JWT_SECRET,
         { expiresIn: '1h' }
     );
+
+    // CORRECTION : On retourne un objet contenant le token ET l'utilisateur
+    return { token, user };
 }

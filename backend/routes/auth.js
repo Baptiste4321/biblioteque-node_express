@@ -7,12 +7,20 @@ router.post('/login', async (req, res) => {
     if (typeof req.body == 'undefined') {
         return res.status(500).json({"error": "Aucune donnée reçu !"});
     }
-
     const {email, password} = req.body;
 
     try {
-        const jwt = await authCtrl.login(email, password);
-        return res.status(200).json({"jwt": jwt});
+        const { token, user } = await authCtrl.login(email, password);
+
+        // On renvoie le token ET les infos de l'utilisateur (sans le mot de passe)
+        return res.status(200).json({
+            jwt: token,
+            user: {
+                id: user.id,
+                email: user.email,
+                role: user.role
+            }
+        });
     } catch(error) {
         res.status(500).json({"error": error.message});
     }
