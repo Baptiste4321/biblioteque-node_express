@@ -49,5 +49,6 @@ router.post('/', auth, isAdmin, upload.single('cover'), bookCtrl.createBook);
  * description: Liste des livres
  */
 router.get('/', bookCtrl.getAllBooks);
-
+router.put('/:id', auth, isAdmin, bookCtrl.modifyBook);
+router.delete('/:id', auth, isAdmin, bookCtrl.deleteBook);
 module.exports = router;

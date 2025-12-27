@@ -11,10 +11,12 @@ const Login = () => {
         try {
             const response = await loginUser(email, password);
             const token = response.data.jwt; // Ton API renvoie {"jwt": token}
+            const user = response.data.user;
 
             // Stockage du token pour les futures requêtes (ex: emprunter un livre)
             localStorage.setItem('token', token);
 
+            localStorage.setItem('role', user ? user.role : 'client');
             alert("Connexion réussie !");
             window.location.href = '/books'; // Redirection après succès
         } catch (err) {

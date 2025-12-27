@@ -80,7 +80,18 @@ exports.returnBook = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-
+exports.getMyLoans = async (req, res) => {
+    try {
+        const Loan = require('../models/Loan');
+        const Book = require('../models/Book');
+        // Récupérer les emprunts de l'utilisateur (actifs ou tous)
+        const loans = await Loan.findAll({
+            where: { UserId: req.user.id },
+            include: [Book]
+        });
+        res.status(200).json(loans);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+};
 async function sendReturnEmail(email, bookTitle, statusMessage) {
     const mailOptions = {
         from: '"Ma Bibliothèque" <no-reply@biblio.com>',

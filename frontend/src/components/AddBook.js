@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createBook } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,6 +10,14 @@ const AddBook = () => {
     const [file, setFile] = useState(null);
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        const role = localStorage.getItem('role');
+        if (!token || role !== 'admin') {
+            alert("Accès réservé aux administrateurs connectés.");
+            navigate('/login');
+        }
+    }, [navigate]);
     const handleSubmit = async (e) => {
         e.preventDefault();
 

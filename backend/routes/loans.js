@@ -65,5 +65,5 @@ router.post('/', auth, loanCtrl.borrowBook);
  *         description: Emprunt non trouvé
  */
 router.post('/:loanId/return', auth, loanCtrl.returnBook);
-
+router.get('/my', auth, loanCtrl.getMyLoans);
 module.exports = router;
