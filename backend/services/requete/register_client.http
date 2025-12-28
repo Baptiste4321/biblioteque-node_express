@@ -2,6 +2,6 @@ POST http://localhost:3001/api/auth/register
 Content-Type: application/json
 
 {
-  "email": "clien1@gmail.com",
+  "email": "client@gmail.com",
   "password": "client123"
 }
