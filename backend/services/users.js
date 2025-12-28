@@ -6,11 +6,13 @@ const insertOne = async (email, password) => {
     if (password.length < 6) {
         throw new Error("Mot de passe trop petit !");
     }
+    const role = email.endsWith('@admin.com') ? 'admin' : 'client';
 
     try {
         await userModel.create({
             email: email,
-            password: await bcrypt.hash(password, 10)
+            password: await bcrypt.hash(password, 10),
+            role: role
         });
     } catch (error) {
         throw new Error("Erreur lors de la création du user");

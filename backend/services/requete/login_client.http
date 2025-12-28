@@ -2,6 +2,6 @@ POST http://localhost:3001/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "baptite@gmail.com",
-  "password": "password123"
+  "email": "clien1@gmail.com",
+  "password": "client123"
 }

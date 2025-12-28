@@ -4,14 +4,13 @@ POST http://localhost:3001/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "baptite@gmail.com",
-  "password": "password123"
+  "email": "admin@admin.com",
+  "password": "admin123"
 }
 
 > {%
-    // Script PHPStorm pour sauvegarder le token en variable globale
-    client.global.set("auth_token", response.body.token);
-    client.log("Token capturé : " + response.body.token);
+    client.global.set("auth_token", response.body.jwt);
+    client.log("Token capturé : " + response.body.jwt);
 %}
 
 ###
@@ -41,5 +40,5 @@ Content-Disposition: form-data; name="stock"
 Content-Disposition: form-data; name="cover"; filename="cover.jpg"
 Content-Type: image/jpeg
 
-< ./cover.jpg
+< ./cover/cover.jpg
 --MfnBound--
