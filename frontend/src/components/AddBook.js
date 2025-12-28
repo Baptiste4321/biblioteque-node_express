@@ -33,7 +33,7 @@ const AddBook = () => {
         try {
             await createBook(formData);
             alert('Livre ajouté !');
-            navigate('/'); // Redirection vers la liste
+            navigate('/');
         } catch (error) {
             console.error(error);
             alert("Erreur: Êtes-vous connecté en tant qu'ADMIN ?");

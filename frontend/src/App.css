@@ -1,4 +1,3 @@
-/* frontend/src/App.css */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f0f2f5;
@@ -44,7 +43,7 @@ nav a:hover {
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
-/* Grille des livres (Correction des noms de classes) */
+/* Grille des livres */
 .books-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -70,8 +69,8 @@ nav a:hover {
 
 .book-cover {
     width: 100%;
-    height: 250px; /* Hauteur fixe pour uniformité */
-    object-fit: cover; /* L'image remplit la zone sans être déformée */
+    height: 250px;
+    object-fit: cover;
     border-bottom: 1px solid #eee;
 }
 
@@ -89,7 +88,7 @@ nav a:hover {
 
 /* Actions (Boutons) */
 .book-actions {
-    margin-top: auto; /* Pousse les boutons vers le bas */
+    margin-top: auto;
     padding: 15px;
     display: flex;
     gap: 10px;
@@ -150,7 +149,7 @@ input {
     margin: 10px 0 20px;
     border: 1px solid #ddd;
     border-radius: 6px;
-    box-sizing: border-box; /* Important pour que le padding ne dépasse pas */
+    box-sizing: border-box;
     font-size: 1rem;
 }
 

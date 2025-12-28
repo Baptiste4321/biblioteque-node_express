@@ -1,4 +1,3 @@
-// frontend/src/components/EditBook.js
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { updateBook, fetchBooks } from '../services/api'; // Import fetchBooks pour recharger si besoin
@@ -16,12 +15,9 @@ const EditBook = () => {
     });
 
     useEffect(() => {
-        // Si on a les données via la navigation (BookList)
         if (location.state?.book) {
             setFormData(location.state.book);
         } else {
-            // SINON (cas du rafraîchissement de page), on recharge les livres
-            // Idéalement, il faudrait une route API getBook(id), mais ici on filtre fetchBooks
             fetchBooks().then(res => {
                 const foundBook = res.data.find(b => b.id.toString() === id);
                 if (foundBook) setFormData(foundBook);

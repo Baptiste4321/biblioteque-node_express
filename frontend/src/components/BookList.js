@@ -1,7 +1,5 @@
-// Fichier : frontend/src/components/BookList.js
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-// CORRECTION : Import des fonctions nommées (plus de "import api from ...")
 import { fetchBooks, deleteBook, borrowBook } from '../services/api';
 
 const BookList = () => {
@@ -19,7 +17,6 @@ const BookList = () => {
 
     const loadBooks = async () => {
         try {
-            // CORRECTION : Appel direct à la fonction fetchBooks
             const response = await fetchBooks();
             setBooks(response.data);
         } catch (error) {
@@ -30,7 +27,6 @@ const BookList = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Êtes-vous sûr de vouloir supprimer ce livre ?")) {
             try {
-                // CORRECTION : Appel à deleteBook
                 await deleteBook(id);
                 setBooks(books.filter(book => book.id !== id));
                 alert("Livre supprimé !");
@@ -74,10 +70,8 @@ const BookList = () => {
 
                         <div className="book-actions">
                             {isAdmin ? (
-                                // INTERFACE ADMIN : Modifier / Supprimer
                                 <>
                                     <button
-                                        // On passe l'objet book pour pré-remplir le formulaire
                                         onClick={() => navigate(`/edit-book/${book.id}`, { state: { book } })}
                                         className="btn-edit"
                                     >
@@ -92,7 +86,6 @@ const BookList = () => {
                                     </button>
                                 </>
                             ) : (
-                                // INTERFACE UTILISATEUR : Emprunter
                                 <button
                                     onClick={() => handleBorrow(book.id)}
                                     disabled={book.stock <= 0}

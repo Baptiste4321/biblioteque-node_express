@@ -1,16 +1,15 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import './App.css'; // Import du CSS
+import './App.css';
 
 import Register from './components/Register';
 import Login from './components/Login';
 import BookList from './components/BookList';
 import AddBook from './components/AddBook';
 import EditBook from './components/EditBook';
-import MyLoans from './components/MyLoans'; // Import du nouveau composant
+import MyLoans from './components/MyLoans';
 
 function App() {
-    // Petit helper pour vérifier si connecté (pour l'affichage du menu)
     const isConnected = !!localStorage.getItem('token');
     const isAdmin = localStorage.getItem('role') === 'admin';
 
@@ -42,7 +41,7 @@ function App() {
                     <Route path="/my-loans" element={<MyLoans />} />
                     {/* Routes Admin */}
                     <Route path="/add-book" element={<AddBook />} />
-                    <Route path="/edit-book/:id" element={<AddBook />} />
+                    <Route path="/edit-book/:id" element={<EditBook />} />
                 </Routes>
             </div>
         </Router>

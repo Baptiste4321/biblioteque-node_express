@@ -11,11 +11,11 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:3001', // Remplace par l'URL de ton serveur
+        url: 'http://localhost:3001',
       },
     ],
   },
-  //apis: ['./routes/*.js'], // Chemin vers tes fichiers de routes
+  //apis: ['./routes/*.js'],
     apis: [],
 };
 

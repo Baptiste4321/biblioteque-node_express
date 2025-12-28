@@ -39,7 +39,6 @@ exports.borrowBook = async (req, res) => {
     }
 };
 
-// Rendre un livre
 exports.returnBook = async (req, res) => {
     try {
         const { loanId } = req.params;

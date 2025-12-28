@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const loanCtrl = require('../controllers/loans'); // Assure-toi que ce fichier existe (étape précédente)
+const loanCtrl = require('../controllers/loans');
 const auth = require('../middlewares/auth');
 
 /**

@@ -15,6 +15,5 @@ exports.login = async (email, password) => {
         { expiresIn: '1h' }
     );
 
-    // CORRECTION : On retourne un objet contenant le token ET l'utilisateur
     return { token, user };
 }

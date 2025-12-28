@@ -12,16 +12,12 @@ const Login = () => {
             const response = await loginUser(email, password);
 
             const token = response.data.jwt;
-            const user = response.data.user; // Maintenant, ceci contient bien l'objet user envoyé par le backend
+            const user = response.data.user;
 
-            // Stockage
             localStorage.setItem('token', token);
 
-            // CORRECTION IMPORTANTE :
-            // BookList.js attend un objet JSON stocké sous la clé 'user'
             localStorage.setItem('user', JSON.stringify(user));
 
-            // On peut garder 'role' si d'autres composants l'utilisent, mais 'user' est le plus important ici
             localStorage.setItem('role', user.role);
 
             alert("Connexion réussie !");

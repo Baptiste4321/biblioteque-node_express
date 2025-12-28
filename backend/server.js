@@ -4,11 +4,9 @@ const cors = require('cors');
 const morgan = require('morgan');
 const helmet = require('helmet');
 
-// Import des configurations
 const sequelize = require('./config/database');
 const { swaggerUi, specs } = require('./config/swagger');
 
-// Import des modèles (nécessaire pour sequelize.sync)
 require('./models/User');
 require('./models/Book');
 require('./models/Loan');
@@ -41,8 +39,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/loans', loansRoutes);
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(specs));
 
-// Fonction de démarrage sécurisée
-// Remplacez la fin de votre fichier server.js par ceci :
 
 async function startApp() {
     try {
@@ -58,7 +54,6 @@ async function startApp() {
             console.log(`Serveur Express en écoute sur http://localhost:${PORT}`);
         });
 
-        // Capture les erreurs spécifiques au serveur HTTP
         server.on('error', (err) => {
             console.error('❌ Erreur du serveur HTTP:', err);
         });
@@ -69,7 +64,6 @@ async function startApp() {
     }
 }
 
-// Gestion des erreurs globales pour voir ce qui fait quitter Node
 process.on('uncaughtException', (err) => {
     console.error('🔥 Erreur critique non capturée:', err);
 });

@@ -10,7 +10,7 @@ const Register = () => {
         e.preventDefault();
         try {
             const response = await registerUser(email, password);
-            setMessage(response.data.message); // "Utilisateur créé avec succès !"
+            setMessage(response.data.message);
         } catch (error) {
             setMessage(error.response?.data?.error || "Erreur lors de l'inscription");
         }

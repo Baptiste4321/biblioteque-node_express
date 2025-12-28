@@ -9,7 +9,7 @@ const Review = sequelize.define('Review', {
         allowNull: false,
         validate: { min: 1, max: 5 }
     },
-    comment: { type: DataTypes.TEXT, allowNull: true } // Peut être null si note seule
+    comment: { type: DataTypes.TEXT, allowNull: true }
 });
 
 User.hasMany(Review);

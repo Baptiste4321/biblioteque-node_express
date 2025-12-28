@@ -1,7 +1,5 @@
 const Minio = require('minio');
 
-// Initialisation du client MinIO avec les variables d'environnement
-// Ces variables sont définies dans ton docker-compose.yml
 const minioClient = new Minio.Client({
     endPoint: 'localhost',
     port: 9000,
